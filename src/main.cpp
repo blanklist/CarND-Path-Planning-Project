@@ -160,9 +160,6 @@ int main() {
 
           s.set_points(ptsx, ptsy);
 
-          vector<double> next_x_vals;
-          vector<double> next_y_vals;
-
           for(int i = 0; i < previous_path_x.size(); i++) {
             next_x_vals.push_back(previous_path_x[i]);
             next_y_vals.push_back(previous_path_y[i]);
