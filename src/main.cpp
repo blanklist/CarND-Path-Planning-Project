@@ -97,6 +97,48 @@ int main() {
 
           int prev_size = previous_path_x.size();
 
+          // don't rear-end cars!
+          if (prev_size > 0) {
+            car_s = end_path_s;
+          }
+
+          bool too_close = false;
+
+          for (int i = 0; i < sensor_fusion.size(); i++) {
+            float d = sensor_fusion[i][6];
+            // is the car in our lane?
+            if (d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2)) {
+              double vx = sensor_fusion[i][3];
+              double vy = snesor_fusion[i][4];
+              double check_speed = sqrt(vx * vx + vy * vy);
+              double check_car_s = sensor_fusion[i][5];
+
+              // project s value outward in time
+              check_car_s += ((double)prev_size * .02 * check_speed);
+              if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
+                // slow down
+                ref_vel = 29.5
+              }
+            }
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           json msgJson;
 
           vector<double> next_x_vals;
