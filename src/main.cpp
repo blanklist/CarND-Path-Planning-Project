@@ -109,7 +109,7 @@ int main() {
             // is the car in our lane?
             if (d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2)) {
               double vx = sensor_fusion[i][3];
-              double vy = snesor_fusion[i][4];
+              double vy = sensor_fusion[i][4];
               double check_speed = sqrt(vx * vx + vy * vy);
               double check_car_s = sensor_fusion[i][5];
 
@@ -117,7 +117,7 @@ int main() {
               check_car_s += ((double)prev_size * .02 * check_speed);
               if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
                 // slow down
-                ref_vel = 29.5
+                ref_vel = 29.5;
               }
             }
           }
