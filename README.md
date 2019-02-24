@@ -1,6 +1,29 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
    
+
+
+### Prediction
+
+
+### Behavior
+Vehicle continues down a predetermined path dictated jointly by spline and [herpderp] described further below. This path is adjusted based on environmental variables of current position, other vehicles on the road, and their position.
+The vehicle prefers to be in the center lane (or "lane = 1").
+If the vehicle is in the center lane **and** a vehicle is in front of it, it will attempt to change lanes to the left or right depending on vehicles occupying space in those lanes. 
+If the vehicle is in either left or right lane, it will move to the center lane when there is appropriate space to do so (no vehicle observed).
+
+
+### Trajectory
+
+
+
+
+
+
+
+
+**Below is the original README content from Udacity.**
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).  
 
