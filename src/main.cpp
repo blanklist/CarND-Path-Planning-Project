@@ -52,7 +52,7 @@ int main() {
   }
 
   // start in lane 1
-  int lane = 1;
+  int lane = 2;
 
   // reference velocity of 49.5mph
   double ref_vel = 0;
