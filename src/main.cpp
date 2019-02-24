@@ -123,7 +123,7 @@ int main() {
 
             // project s value outward in time
             check_car_s += ((double)prev_size * .02 * check_speed);
-           
+            
             // car in lane and in front
             if (check_lane == lane) {
               car_ahead |= check_car_s > car_s && (check_car_s - car_s) < 30;
@@ -137,7 +137,10 @@ int main() {
           }
 
           if (car_ahead) {
-            if (!car_left && lane > 0) { --lane; }
+            // preferred center lane open
+            if (lane == 0 && !car_right) { lane = 1; }
+            else if (lane == 2  && !car_left) { lane = 1; }
+            else if (!car_left && lane > 0) { --lane; }
             else if (!car_right && lane != 2) { ++lane; }
             else { ref_vel -= .224; }
           } else if (ref_vel < 49.5) { ref_vel += .224; }
