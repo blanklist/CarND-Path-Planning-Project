@@ -104,28 +104,75 @@ int main() {
 
           bool too_close = false;
 
-          for (int i = 0; i < sensor_fusion.size(); i++) {
-            float d = sensor_fusion[i][6];
-            // is the car in our lane?
-            if (d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2)) {
-              double vx = sensor_fusion[i][3];
-              double vy = sensor_fusion[i][4];
-              double check_speed = sqrt(vx * vx + vy * vy);
-              double check_car_s = sensor_fusion[i][5];
+          // PREDICTION 
+          bool car_left = false;
+          bool car_right = false;
+          bool car_ahead = false;
 
-              // project s value outward in time
-              check_car_s += ((double)prev_size * .02 * check_speed);
-              if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
-                // slow down
-                // ref_vel = 29.5;
-                too_close = true;
-                if (lane > 0) {lane -= 1;}
-              }
+          for (int i = 0; i < sensor_fusion.size(); i++) {
+
+            float d = sensor_fusion[i][6];
+
+            int check_lane;
+
+            if (d > 0 && d < 4) { check_lane = 0; }
+            else if (d > 4 && d < 8) { check_lane = 1; }
+            else if (d > 8 && d < 12) { check_lane = 2; }
+            double vx = sensor_fusion[i][3];
+            double vy = sensor_fusion[i][4];
+            double check_speed = sqrt(vx * vx + vy * vy);
+            double check_car_s = sensor_fusion[i][5];
+
+            // project s value outward in time
+            check_car_s += ((double)prev_size * .02 * check_speed);
+           
+
+            // car in lane and in front
+            if (check_lane == lane) {
+              car_ahead |= check_car_s > car_s && (check_car_s - car_s) < 30;
+            // car to left and within 30
+            } else if ((check_lane - lane) == -1) {
+              car_left |= (car_s + 30) > check_car_s && (car_s - 30) < check_car_s;
+            // car to right and within 30
+            } else if ((check_lane - lane) == 1) {
+              car_right |= (car_s + 30) > check_car_s && (car_s - 30) < check_car_s;
             }
+
           }
 
-          if(too_close) {ref_vel -= .224;
-          } else if (ref_vel < 49.5) {ref_vel += .224;}
+          if (car_ahead) {
+            if (!car_left && lane > 0) { --lane; }
+            else if (!car_right && lane != 2) { ++lane; }
+            else { ref_vel -= .224; }
+          }
+
+
+
+
+
+
+          // for (int i = 0; i < sensor_fusion.size(); i++) {
+          //   float d = sensor_fusion[i][6];
+          //   // is the car in our lane?
+          //   if (d < (2 + 4 * lane + 2) && d > (2 + 4 * lane - 2)) {
+          //     double vx = sensor_fusion[i][3];
+          //     double vy = sensor_fusion[i][4];
+          //     double check_speed = sqrt(vx * vx + vy * vy);
+              // double check_car_s = sensor_fusion[i][5];
+
+              // project s value outward in time
+              // check_car_s += ((double)prev_size * .02 * check_speed);
+          //     if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
+          //       // slow down
+          //       // ref_vel = 29.5;
+          //       too_close = true;
+          //       if (lane > 0) {lane -= 1;}
+          //     }
+          //   }
+          // }
+
+          // if(too_close) {ref_vel -= .224;
+          // } else if (ref_vel < 49.5) {ref_vel += .224;}
 
 
 
