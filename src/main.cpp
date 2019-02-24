@@ -135,12 +135,12 @@ int main() {
               car_right |= (car_s + 30) > check_car_s && (car_s - 30) < check_car_s;
             }
           }
+          // preferred center lane open
+          if (lane == 0 && !car_right) { lane = 1; }
+          else if (lane == 2  && !car_left) { lane = 1; }  
 
           if (car_ahead) {
-            // preferred center lane open
-            if (lane == 0 && !car_right) { lane = 1; }
-            else if (lane == 2  && !car_left) { lane = 1; }
-            else if (!car_left && lane > 0) { --lane; }
+            if (!car_left && lane > 0) { --lane; }
             else if (!car_right && lane != 2) { ++lane; }
             else { ref_vel -= .224; }
           } else if (ref_vel < 49.5) { ref_vel += .224; }
