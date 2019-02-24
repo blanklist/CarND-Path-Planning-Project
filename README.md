@@ -1,21 +1,23 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
 
 
 ### Prediction
+Vehicle initially refers to sensor_fusion observations to gauge positions of other vehicles' positions. Flags for car_ahead, car_left, and car_right are set to true if cars are found in those respective lanes within 30 meters of our vehicle.
 
 
 ### Behavior
-Vehicle continues down a predetermined path dictated jointly by spline and [herpderp] described further below. This path is adjusted based on environmental variables of current position, other vehicles on the road, and their position.
-The vehicle prefers to be in the center lane (or "lane = 1").
-If the vehicle is in the center lane **and** a vehicle is in front of it, it will attempt to change lanes to the left or right depending on vehicles occupying space in those lanes. 
-If the vehicle is in either left or right lane, it will move to the center lane when there is appropriate space to do so (no vehicle observed).
+The vehicle prefers to be in the center lane (or "lane = 1"). Lines 138 - 140 of main.cpp move the vehicle into the center lane if the lane is clear. This preference is implemented simply by running in the program before the decision tree directly below.
+Next, if a vehicle is in front of us, we will move to the left if there are no vehicles there. If we are already in the left lane or if there are vehicles in the way, our vehicle will move to the right as long as there is space available (no vehicles within 30 meters). If there is a vehicle in front and no available lane changes, our vehicle will slow down (line 145).
+If no vehicle is found in front, our vehicle will increase speed up to 49.5mph (line 146).
 
 
 ### Trajectory
+Vehicle continues down a path dictated jointly by a spline points set far from the vehicle and past trajectory points. The spline is created with 3 points set relatively far from the current position in order to decrease jerk and smooth movement overall. Past trajectory points also smooth movement by connecting present movement to the immediate past.
 
 
+### Reflection
+The vehicle's movement is largely dependent on various decision trees. Initially I moved the vehicle to any open lane without showing preference. After observing the behavior of the simulator's traffic, I decided to add a small decision tree to the vehicle's behavior step: if the middle lane is open, our vehicle moves into that lane. From that position, our vehicle will have more opportunity to move through traffic based on more potentially available lane changes. This is a simple solution in response to a relatively simplistic problem space. The variables of actual highway driving would necessitate much more robust tracking of other objects and trajectory calculations. 
 
 
 

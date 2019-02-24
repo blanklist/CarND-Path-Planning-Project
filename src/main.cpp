@@ -102,7 +102,6 @@ int main() {
             car_s = end_path_s;
           }
 
-          // PREDICTION 
           bool car_left = false;
           bool car_right = false;
           bool car_ahead = false;
@@ -135,6 +134,7 @@ int main() {
               car_right |= (car_s + 30) > check_car_s && (car_s - 30) < check_car_s;
             }
           }
+          
           // preferred center lane open
           if (lane == 0 && !car_right) { lane = 1; }
           else if (lane == 2  && !car_left) { lane = 1; }  
