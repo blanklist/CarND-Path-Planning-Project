@@ -144,9 +144,7 @@ int main() {
             if (!car_left && lane > 0) { --lane; }
             else if (!car_right && lane != 2) { ++lane; }
             else { ref_vel -= .224; }
-          }
-
-          if (ref_vel < 49.5) { ref_vel += .224; }
+          } else if (ref_vel < 49.5) { ref_vel += .224; }
 
 
 
